@@ -6,12 +6,17 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Entities {
+public class Earnings {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(length = 50)
     private String name;
-    private Boolean isPerson;
+    private Double value;
+    private Double estimateValue;
+
+    @OneToOne
+    @JoinColumn(name = "idEntity")
+    private Entities idEntity;
+
 }
