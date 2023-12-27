@@ -1,6 +1,8 @@
 package br.com.psf.personalsystemfinance.rest;
 
+import br.com.psf.personalsystemfinance.service.ExpensesService;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ExpensesController {
 
-//    @Autowired
-//    private ExpensesService expensesService;
+    @Autowired
+    private ExpensesService expensesService;
 
 
     @ApiOperation(value = "Obtém a lista de Despesas")
@@ -26,5 +28,7 @@ public class ExpensesController {
         String[] listExpenses = {"Faculdade", "Carro", "Luz", "Água", "Internet", "Aluguel", "Cartão"};
         return new ResponseEntity<>(listExpenses, headers, HttpStatus.OK);
     }
+
+
 
 }

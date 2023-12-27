@@ -14,8 +14,5 @@ public class Expenses {
     private String name;
     private Double estimateValue;
     private Double currentValue;
-
-    @OneToOne
-    @JoinColumn(name = "idEntity")
-    private Entities idEntity;
+    private Integer idEntity;
 }

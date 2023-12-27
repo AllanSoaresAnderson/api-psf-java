@@ -7,12 +7,32 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional
 public class EntityService {
 
     @Autowired
     private EntityRepository entityRepository;
+
+    public Boolean entityExists(Integer id){
+       if(id != null){
+           return  this.entityRepository.existsById(id);
+       }
+        return false;
+    }
+
+
+    public List<EntityDTO> getListEntities(){
+        return this.entityRepository.findAll().stream()
+                .map(this::toEntityDTO).collect(Collectors.toList());
+    }
+
+    public EntityDTO getEntityById(Integer id){
+        return this.toEntityDTO(this.entityRepository.getReferenceById(id));
+    }
 
 
     public EntityDTO updateFieldEntity(Integer id, String field, Object value) throws Exception {
@@ -51,7 +71,6 @@ public class EntityService {
         }else {
             throw new Exception("Entidade não existe");
         }
-
     }
 
 

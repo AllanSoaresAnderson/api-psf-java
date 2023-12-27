@@ -1,9 +1,9 @@
 package br.com.psf.personalsystemfinance.rest;
 
-import br.com.psf.personalsystemfinance.dto.EarningDTO;
 import br.com.psf.personalsystemfinance.dto.EntityDTO;
 import br.com.psf.personalsystemfinance.service.EntityService;
 import io.swagger.annotations.ApiOperation;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -11,8 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping(value = "/entities")
 @RestController
+@Transactional
 public class EntityController {
 
     @Autowired
@@ -21,11 +24,17 @@ public class EntityController {
     @ApiOperation(value = "Obtém a lista de Despesas")
     @GetMapping("/listEntities")
     @ResponseBody
-    public ResponseEntity<String[]> getListEntities() {
+    public ResponseEntity<List<EntityDTO>> getListEntities() {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Access-Control-Allow-Origin", "http://localhost:4200");
-        String[] listExpenses = {"Casa", "Júlia", "Carro"};
-        return new ResponseEntity<>(listExpenses, headers, HttpStatus.OK);
+        return new ResponseEntity<>(this.entityService.getListEntities(), headers, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<EntityDTO> getEntityById(@PathVariable Integer id){
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Allow-Origin", "http://localhost:4200");
+        return new ResponseEntity<>(this.entityService.getEntityById(id), headers, HttpStatus.OK);
     }
 
     @PostMapping(value = "/addEntity")
@@ -52,8 +61,6 @@ public class EntityController {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
         }
-
-
     }
 
     @PutMapping(value = "/updateEntity/{id}")
@@ -94,6 +101,7 @@ public class EntityController {
             return new ResponseEntity<>(headers, HttpStatus.BAD_GATEWAY);
         }
     }
+
 
 
 

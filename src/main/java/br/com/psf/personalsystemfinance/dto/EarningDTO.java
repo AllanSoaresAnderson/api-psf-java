@@ -10,5 +10,5 @@ public class EarningDTO {
     private String name;
     private Double value;
     private Double estimateValue;
-    private Entities idEntity;
+    private Integer idEntity;
 }

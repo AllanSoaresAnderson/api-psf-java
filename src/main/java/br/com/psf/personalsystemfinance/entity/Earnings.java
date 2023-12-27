@@ -14,9 +14,6 @@ public class Earnings {
     private String name;
     private Double value;
     private Double estimateValue;
-
-    @OneToOne
-    @JoinColumn(name = "idEntity")
-    private Entities idEntity;
+    private Integer idEntity;
 
 }
