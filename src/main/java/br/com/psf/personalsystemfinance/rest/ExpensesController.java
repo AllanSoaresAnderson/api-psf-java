@@ -52,13 +52,11 @@ public class ExpensesController {
     @PostMapping(value = "/addExpense")
     @ResponseBody
     public ResponseEntity<ExpensesDTO> addExpense(@Validated @RequestBody ExpensesDTO expenseDTO ){
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Access-Control-Allow-Origin", "http://localhost:4200");
         if(expenseDTO.getIdEntity() != null
                 && !this.entityService.entityExists(expenseDTO.getIdEntity())){
-            return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(this.expensesService.addExpense(expenseDTO), headers, HttpStatus.OK);
+        return new ResponseEntity<>(this.expensesService.addExpense(expenseDTO), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Obtém uma Despesa por um ID")
