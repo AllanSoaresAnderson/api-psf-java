@@ -1,18 +1,19 @@
 package br.com.psf.personalsystemfinance.entity;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.Data;
 
-@Entity
 @Data
-public class Expenses {
-
+@Entity
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(length = 50)
+    @Column(nullable = false)
+    @Nonnull
     private String name;
-    private Double estimateValue;
-    private Double currentValue;
-    private Integer idEntity;
+    @Column(nullable = false)
+    @Nonnull
+    private Integer unitValue;
 }

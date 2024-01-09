@@ -3,8 +3,8 @@ package br.com.psf.personalsystemfinance.dto;
 import lombok.Data;
 
 @Data
-public class EntityDTO {
+public class ProductDTO {
     private Integer id;
     private String name;
-    private Boolean isPerson;
+    private Integer unitValue;
 }
