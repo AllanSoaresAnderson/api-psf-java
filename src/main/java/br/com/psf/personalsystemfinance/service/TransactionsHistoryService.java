@@ -89,12 +89,13 @@ public class TransactionsHistoryService {
         return dto;
     }
     private TransactionHistory toTransactionHistory(TransactionHistoryDTO dto){
-        TransactionHistory t = new TransactionHistory();
-        t.setIdTransaction(dto.getIdTransaction());
+        TransactionHistory t = new TransactionHistory(
+                dto.getType(),
+                dto.getIdTransaction(),
+                dto.getDate(),
+                dto.getValue()
+        );
         t.setId(dto.getId());
-        t.setDate(dto.getDate());
-        t.setType(dto.getType());
-        t.setValue(dto.getValue());
         t.setItsDone(dto.isItsDone());
         return t;
     }

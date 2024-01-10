@@ -28,4 +28,14 @@ public class TransactionHistory {
     @Nonnull
     private Double value;
 
+    public TransactionHistory(
+            @Nonnull String type,
+            @Nonnull Integer idTransaction,
+            @Nonnull LocalDate date,
+            @Nonnull Double value) {
+        this.type = type;
+        this.idTransaction = idTransaction;
+        this.date = date;
+        this.value = value;
+    }
 }

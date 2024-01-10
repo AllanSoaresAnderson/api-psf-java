@@ -59,10 +59,8 @@ public class ProductService {
         return dto;
     }
     private Product toProduct(ProductDTO dto){
-        Product p = new Product();
+        Product p = new Product(dto.getName(), dto.getUnitValue());
         p.setId(dto.getId());
-        p.setName(dto.getName());
-        p.setUnitValue(dto.getUnitValue());
         return p;
     }
 

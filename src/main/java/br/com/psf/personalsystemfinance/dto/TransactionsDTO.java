@@ -10,4 +10,5 @@ public class TransactionsDTO {
     private String type;
     private String categoryType;
     private Integer idCategory;
+    private Integer idEntity;
 }

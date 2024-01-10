@@ -21,4 +21,10 @@ public class InstallmentVariable {
     @Column(nullable = false)
     @Nonnull
     private LocalDate date;
+
+    public InstallmentVariable(@Nonnull Integer idFixedTransaction, @Nonnull Double value, @Nonnull LocalDate date) {
+        this.idFixedTransaction = idFixedTransaction;
+        this.value = value;
+        this.date = date;
+    }
 }

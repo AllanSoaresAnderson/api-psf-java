@@ -4,9 +4,10 @@ import br.com.psf.personalsystemfinance.dto.FixedTransactionDTO;
 import br.com.psf.personalsystemfinance.dto.InstallmentVariableDTO;
 import br.com.psf.personalsystemfinance.entity.InstallmentVariable;
 import br.com.psf.personalsystemfinance.repository.InstallmentVariableRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,7 +17,6 @@ import java.util.List;
  * @author allan
  */
 @Service
-@Transactional
 public class InstallmentVariableService {
 
     @Autowired
@@ -42,7 +42,7 @@ public class InstallmentVariableService {
         List<InstallmentVariableDTO> listInstallment;
         if(ft.getId() != null
                 && ((ft.isInstallment() && ft.getTypeInstallment().equals("variable"))
-                && (ft.getAmountInstallment() < 2 || ft.getAmountInstallment() > 24))){
+                && (ft.getAmountInstallment() > 2 && ft.getAmountInstallment() <= 24))){
             Double valueInstallmentDefault = ft.getValue() / ft.getAmountInstallment();
             listInstallment = new ArrayList<>();
             LocalDate timeInstallment = ft.getStartDate();
@@ -52,6 +52,7 @@ public class InstallmentVariableService {
                 installment.setIdFixedTransaction(ft.getId());
                 installment.setValue(valueInstallmentDefault);
                 installment.setDate(timeInstallment);
+                listInstallment.add(installment);
             }
             listInstallment = this.addListInstallment(listInstallment);
         } else {
@@ -106,7 +107,7 @@ public class InstallmentVariableService {
                 listInstallment.add(this.toInstallmentVariable(i));
             }
         }
-        listInstallment = this.installmentVariableRepository.saveAllAndFlush(listInstallment);
+        listInstallment = this.installmentVariableRepository.saveAll(listInstallment);
         listNewInstallment = new ArrayList<>();
         for (InstallmentVariable i : listInstallment){
             listNewInstallment.add(this.toDTO(i));
@@ -124,11 +125,12 @@ public class InstallmentVariableService {
     }
 
     private InstallmentVariable toInstallmentVariable(InstallmentVariableDTO dto){
-        InstallmentVariable i = new InstallmentVariable();
+        InstallmentVariable i =
+                new InstallmentVariable(
+                dto.getIdFixedTransaction(),
+                dto.getValue(),
+                dto.getDate());
         i.setId(dto.getId());
-        i.setDate(dto.getDate());
-        i.setValue(dto.getValue());
-        i.setIdFixedTransaction(dto.getIdFixedTransaction());
         return i;
     }
 

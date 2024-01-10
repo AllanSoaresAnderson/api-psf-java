@@ -86,13 +86,15 @@ public class TransactionsService {
         return dto;
     }
     private Transactions toTransactions(TransactionsDTO dto){
-        Transactions t = new Transactions();
+        Transactions t = new Transactions(
+                dto.getName(),
+                dto.getValue(),
+                dto.getType(),
+                dto.getCategoryType(),
+                dto.getIdCategory(),
+                dto.getIdEntity()
+                );
         t.setId(dto.getId());
-        t.setName(dto.getName());
-        t.setType(dto.getType());
-        t.setValue(dto.getValue());
-        t.setIdCategory(dto.getIdCategory());
-        t.setCategoryType(dto.getCategoryType());
         return t;
     }
 }

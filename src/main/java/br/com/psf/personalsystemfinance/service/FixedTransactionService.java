@@ -1,23 +1,19 @@
 package br.com.psf.personalsystemfinance.service;
 
 import br.com.psf.personalsystemfinance.dto.FixedTransactionDTO;
-import br.com.psf.personalsystemfinance.dto.InstallmentVariableDTO;
 import br.com.psf.personalsystemfinance.entity.FixedTransactions;
 import br.com.psf.personalsystemfinance.repository.FixedTransactionsRepository;
-import br.com.psf.personalsystemfinance.repository.InstallmentVariableRepository;
-import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author allan
  */
 @Service
-@Transactional
 public class FixedTransactionService {
 
     @Autowired
@@ -61,7 +57,7 @@ public class FixedTransactionService {
             throw new Exception("Invalid installment quantity");
         }
         FixedTransactions f = this.toFixedTransaction(newFT);
-        newFT = this.toDTO(this.fixedTransactionsRepository.saveAndFlush(f));
+        newFT = this.toDTO(this.fixedTransactionsRepository.save(f));
         return newFT;
     }
     private FixedTransactionDTO toDTO(FixedTransactions fixedTransactions){

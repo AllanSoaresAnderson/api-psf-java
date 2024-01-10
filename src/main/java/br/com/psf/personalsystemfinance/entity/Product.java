@@ -16,4 +16,9 @@ public class Product {
     @Column(nullable = false)
     @Nonnull
     private Integer unitValue;
+
+    public Product(@Nonnull String name, @Nonnull Integer unitValue) {
+        this.name = name;
+        this.unitValue = unitValue;
+    }
 }

@@ -30,4 +30,18 @@ public class Transactions {
     @Nonnull
     private Integer idEntity;
 
+    public Transactions(@Nonnull String name,
+                        @Nonnull Double value,
+                        @Nonnull String type,
+                        @Nonnull String categoryType,
+                        @Nonnull Integer idCategory,
+                        @Nonnull Integer idEntity)
+    {
+        this.name = name;
+        this.value = value;
+        this.type = type;
+        this.categoryType = categoryType;
+        this.idCategory = idCategory;
+        this.idEntity = idEntity;
+    }
 }

@@ -4,19 +4,20 @@ import br.com.psf.personalsystemfinance.dto.FixedTransactionDTO;
 import br.com.psf.personalsystemfinance.dto.InstallmentVariableDTO;
 import br.com.psf.personalsystemfinance.service.FixedTransactionService;
 import br.com.psf.personalsystemfinance.service.InstallmentVariableService;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.http.HttpResponse;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/fixedTransactions")
-@Transactional
 @CrossOrigin(origins = "http://localhost:4200")
 public class FixedTransactionsController {
 
@@ -27,14 +28,22 @@ public class FixedTransactionsController {
     @Autowired
     InstallmentVariableService installmentVariableService;
 
+    @Autowired
+    private PlatformTransactionManager transactionManager;
+
     @PostMapping
     @ResponseBody
     public ResponseEntity<FixedTransactionDTO> addFixedTransaction(@Validated @RequestBody FixedTransactionDTO ft){
+        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
             ft = this.fixedTransactionService.addFixedTransaction(ft);
-            List<InstallmentVariableDTO> installmentList = this.installmentVariableService.createInstallments(ft);
+            if(ft.getTypeInstallment().equals("variable")){
+                List<InstallmentVariableDTO> installmentList = this.installmentVariableService.createInstallments(ft);
+            }
+            transactionManager.commit(status);
             return new ResponseEntity<>(ft, HttpStatus.OK);
         } catch (Exception e) {
+            transactionManager.rollback(status);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
