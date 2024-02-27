@@ -6,7 +6,6 @@ import br.com.psf.personalsystemfinance.repository.FixedTransactionsRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -14,10 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
  * @author allan
  */
 @Service
+@Transactional
 public class FixedTransactionService {
 
     @Autowired
-    private FixedTransactionsRepository fixedTransactionsRepository;
+    public FixedTransactionsRepository fixedTransactionsRepository;
 
 
     /**
@@ -46,15 +46,24 @@ public class FixedTransactionService {
     }
     /**
      * @param newFT The new Fixed Transaction Registry
-     * @throws Exception The id should be null, Invalid installment quantity
+     * @throws Exception The id should be null, Invalid installment quantity, Invalid type installment"
      */
     public FixedTransactionDTO addFixedTransaction(FixedTransactionDTO newFT) throws Exception {
         if(newFT.getId() != null){
             throw new Exception("The id should be null");
         }
         if((newFT.isInstallment() && newFT.getTypeInstallment().equals("variable"))
-            && (newFT.getAmountInstallment() < 2 || newFT.getAmountInstallment() > 24)){
+            && (newFT.getAmountTime() == null || newFT.getAmountInstallment() < 2 || newFT.getAmountInstallment() > 24)){
             throw new Exception("Invalid installment quantity");
+        }
+        if((newFT.isInstallment() && newFT.getTypeInstallment().equals("variable"))
+            && !(newFT.getType().equals("perYear")
+                || newFT.getType().equals("perWeek")
+                || newFT.getType().equals("perMonth")
+                || newFT.getType().equals("perDay")
+        )
+        ){
+            throw new Exception("Invalid type installment");
         }
         FixedTransactions f = this.toFixedTransaction(newFT);
         newFT = this.toDTO(this.fixedTransactionsRepository.save(f));

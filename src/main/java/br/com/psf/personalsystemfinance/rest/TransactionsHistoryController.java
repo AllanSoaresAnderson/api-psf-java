@@ -44,6 +44,7 @@ public class TransactionsHistoryController {
             transactionHistoryDTO = this.transactionsHistoryService.addTransactionHistory(transactionHistoryDTO);
             return new ResponseEntity<>(transactionHistoryDTO, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 

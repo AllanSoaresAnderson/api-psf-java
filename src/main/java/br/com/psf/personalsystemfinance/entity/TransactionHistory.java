@@ -28,6 +28,9 @@ public class TransactionHistory {
     @Nonnull
     private Double value;
 
+    public TransactionHistory(){}
+
+
     public TransactionHistory(
             @Nonnull String type,
             @Nonnull Integer idTransaction,

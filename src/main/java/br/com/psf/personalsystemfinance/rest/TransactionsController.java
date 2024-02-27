@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/transactions")
-@Transactional
 @CrossOrigin(origins = "http://localhost:4200")
 public class TransactionsController {
 
@@ -43,6 +42,7 @@ public class TransactionsController {
         try {
             return new ResponseEntity<>(this.transactionsService.addTransaction(transactionsDTO), HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

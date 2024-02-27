@@ -2,10 +2,10 @@ package br.com.psf.personalsystemfinance.entity;
 
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
+import jakarta.persistence.Entity;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Data
 @Entity
@@ -23,6 +23,11 @@ public class EventualTransaction {
     @Nonnull
     private LocalDate date;
     private String type;
+
+
+    public EventualTransaction(){
+
+    }
 
     public EventualTransaction(@Nonnull String name, @Nonnull Double value, @Nonnull LocalDate date) {
         this.name = name;

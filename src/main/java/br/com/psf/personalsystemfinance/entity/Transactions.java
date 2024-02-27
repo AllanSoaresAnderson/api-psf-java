@@ -13,12 +13,6 @@ public class Transactions {
     private Integer id;
     @Column(nullable = false)
     @Nonnull
-    private String name;
-    @Column(nullable = false)
-    @Nonnull
-    private Double value;
-    @Column(nullable = false)
-    @Nonnull
     private String type;
     @Column(nullable = false)
     @Nonnull
@@ -26,19 +20,22 @@ public class Transactions {
     @Column(nullable = false)
     @Nonnull
     private Integer idCategory;
-    @Column(nullable = false)
+    @Column(insertable = false, updatable = false)
     @Nonnull
     private Integer idEntity;
 
-    public Transactions(@Nonnull String name,
-                        @Nonnull Double value,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idEntity", referencedColumnName = "id")
+    private Entities entity;
+
+    public Transactions(){}
+
+    public Transactions(
                         @Nonnull String type,
                         @Nonnull String categoryType,
                         @Nonnull Integer idCategory,
                         @Nonnull Integer idEntity)
     {
-        this.name = name;
-        this.value = value;
         this.type = type;
         this.categoryType = categoryType;
         this.idCategory = idCategory;

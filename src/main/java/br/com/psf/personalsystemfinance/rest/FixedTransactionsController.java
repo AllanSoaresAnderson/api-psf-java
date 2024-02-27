@@ -43,6 +43,7 @@ public class FixedTransactionsController {
             transactionManager.commit(status);
             return new ResponseEntity<>(ft, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             transactionManager.rollback(status);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -52,6 +53,7 @@ public class FixedTransactionsController {
         try {
             return new ResponseEntity<>(this.fixedTransactionService.getFixedTransaction(id), HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -63,6 +65,7 @@ public class FixedTransactionsController {
             this.fixedTransactionService.deleteFixedTransaction(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

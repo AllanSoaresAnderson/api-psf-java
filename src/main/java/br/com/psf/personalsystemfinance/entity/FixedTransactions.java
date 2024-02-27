@@ -29,6 +29,11 @@ public class FixedTransactions {
     @Nonnull
     private Double value;
 
+
+    public FixedTransactions(){
+
+    }
+
     public FixedTransactions(
             @Nonnull String type,
             @Nonnull LocalDate startDate,

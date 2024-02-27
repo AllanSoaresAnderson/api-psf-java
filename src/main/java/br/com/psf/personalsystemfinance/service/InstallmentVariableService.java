@@ -6,8 +6,8 @@ import br.com.psf.personalsystemfinance.entity.InstallmentVariable;
 import br.com.psf.personalsystemfinance.repository.InstallmentVariableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -17,6 +17,7 @@ import java.util.List;
  * @author allan
  */
 @Service
+@Transactional
 public class InstallmentVariableService {
 
     @Autowired
@@ -29,7 +30,7 @@ public class InstallmentVariableService {
     public void deleteInstallments(Integer idFixedTransaction){
         long amountInstallments = this.installmentVariableRepository.countInstallmentsByTransaction(idFixedTransaction);
         if(amountInstallments > 0){
-            this.deleteInstallments(idFixedTransaction);
+            this.installmentVariableRepository.deleteInstallmentsByTransaction(idFixedTransaction);
         }
     }
 
@@ -42,13 +43,16 @@ public class InstallmentVariableService {
         List<InstallmentVariableDTO> listInstallment;
         if(ft.getId() != null
                 && ((ft.isInstallment() && ft.getTypeInstallment().equals("variable"))
-                && (ft.getAmountInstallment() > 2 && ft.getAmountInstallment() <= 24))){
+                && (ft.getAmountInstallment() != null
+                && ft.getAmountInstallment() > 2 && ft.getAmountInstallment() <= 24))){
             Double valueInstallmentDefault = ft.getValue() / ft.getAmountInstallment();
             listInstallment = new ArrayList<>();
             LocalDate timeInstallment = ft.getStartDate();
             for (int i = 0; i < ft.getAmountInstallment(); i++) {
                 InstallmentVariableDTO installment = new InstallmentVariableDTO();
-                timeInstallment = this.calculateDateInstallment(ft.getType(), ft.getAmountTime(), ft.getStartDate());
+                if(i>0){
+                    timeInstallment = this.calculateDateInstallment(ft.getType(), ft.getAmountTime(), timeInstallment);
+                }
                 installment.setIdFixedTransaction(ft.getId());
                 installment.setValue(valueInstallmentDefault);
                 installment.setDate(timeInstallment);

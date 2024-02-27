@@ -46,7 +46,7 @@ public class EventualTransactionService {
      * @throws Exception The id should be null
      */
     public EventualTransactionDTO addEventualTransaction(EventualTransactionDTO etDTO) throws Exception {
-        if(etDTO.getId() != null){
+        if(etDTO.getId() == null){
             EventualTransaction et = this.toEventualTransaction(etDTO);
             return this.toDTO(this.eventualTransactionRepository.saveAndFlush(et));
         }else{

@@ -22,6 +22,9 @@ public class InstallmentVariable {
     @Nonnull
     private LocalDate date;
 
+
+    public InstallmentVariable(){}
+
     public InstallmentVariable(@Nonnull Integer idFixedTransaction, @Nonnull Double value, @Nonnull LocalDate date) {
         this.idFixedTransaction = idFixedTransaction;
         this.value = value;

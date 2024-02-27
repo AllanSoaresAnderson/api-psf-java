@@ -53,7 +53,7 @@ public class TransactionsService {
      * Fixed Transaction Not Found
      */
     public TransactionsDTO addTransaction(TransactionsDTO transactionsDTO) throws Exception {
-        if(transactionsDTO.getId() != null){
+        if(transactionsDTO.getId() == null){
             if (transactionsDTO.getCategoryType().equals("fixed")
                     && !this.fixedTransactionsRepository.existsById(transactionsDTO.getIdCategory())){
                 throw new Exception("Fixed Transaction Not Found");
@@ -61,8 +61,8 @@ public class TransactionsService {
                     && !this.eventualTransactionRepository.existsById(transactionsDTO.getIdCategory())){
                 throw new Exception("Eventual Transaction Not Found");
             }
-            if (transactionsDTO.getType().equals("expenses")
-                || transactionsDTO.getType().equals("earnings")){
+            if (transactionsDTO.getType().equals("expense")
+                || transactionsDTO.getType().equals("earning")){
                 Transactions transactions = this.toTransactions(transactionsDTO);
                 return this.toDTO(this.transactionsRepository.saveAndFlush(transactions));
             }else {
@@ -78,17 +78,14 @@ public class TransactionsService {
     private TransactionsDTO toDTO(Transactions t){
         TransactionsDTO dto = new TransactionsDTO();
         dto.setId(t.getId());
-        dto.setName(t.getName());
         dto.setType(t.getType());
-        dto.setValue(t.getValue());
         dto.setIdCategory(t.getIdCategory());
         dto.setCategoryType(t.getCategoryType());
+        dto.setIdEntity(t.getIdEntity());
         return dto;
     }
     private Transactions toTransactions(TransactionsDTO dto){
         Transactions t = new Transactions(
-                dto.getName(),
-                dto.getValue(),
                 dto.getType(),
                 dto.getCategoryType(),
                 dto.getIdCategory(),

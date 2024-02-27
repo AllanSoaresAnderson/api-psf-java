@@ -58,7 +58,7 @@ public class TransactionsHistoryService {
      * @throws Exception The id should be null and Not Found
      */
     public TransactionHistoryDTO addTransactionHistory(TransactionHistoryDTO newTH) throws Exception {
-        if(newTH.getId() != null){
+        if(newTH.getId() == null){
             if(newTH.getType().equals("fixed")
                     && !this.fixedTransactionsRepository.existsById(newTH.getIdTransaction())){
                 throw new Exception("NOT FOUND");

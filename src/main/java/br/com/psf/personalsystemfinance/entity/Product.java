@@ -17,6 +17,9 @@ public class Product {
     @Nonnull
     private Integer unitValue;
 
+    public Product(){
+
+    }
     public Product(@Nonnull String name, @Nonnull Integer unitValue) {
         this.name = name;
         this.unitValue = unitValue;
