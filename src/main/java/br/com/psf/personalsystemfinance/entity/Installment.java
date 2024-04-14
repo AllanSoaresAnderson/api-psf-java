@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 @Data
 @Entity
-public class InstallmentVariable {
+public class Installment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -23,9 +23,9 @@ public class InstallmentVariable {
     private LocalDate date;
 
 
-    public InstallmentVariable(){}
+    public Installment(){}
 
-    public InstallmentVariable(@Nonnull Integer idFixedTransaction, @Nonnull Double value, @Nonnull LocalDate date) {
+    public Installment(@Nonnull Integer idFixedTransaction, @Nonnull Double value, @Nonnull LocalDate date) {
         this.idFixedTransaction = idFixedTransaction;
         this.value = value;
         this.date = date;

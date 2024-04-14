@@ -8,7 +8,6 @@ import java.util.Date;
 @Data
 public class EventualTransactionDTO {
     private Integer id;
-    private String name;
     private Double value;
     private LocalDate date;
     private String type;

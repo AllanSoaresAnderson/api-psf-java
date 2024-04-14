@@ -20,7 +20,7 @@ public class TransactionHistory {
     @Nonnull
     private Integer idTransaction;
     @Column(nullable = false)
-    private boolean itsDone;
+    private Boolean itsDone;
     @Column(nullable = false)
     @Nonnull
     private LocalDate date;

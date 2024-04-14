@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -16,24 +17,27 @@ public class FixedTransactions {
     @Column(nullable = false)
     @Nonnull
     private String type;
+    @Column
     private Integer amountTime;
     @Column(nullable = false)
     @Nonnull
     private LocalDate startDate;
+    @Column
     private LocalDate endDate;
     @Column(nullable = false)
-    private boolean isInstallment;
+    private Boolean isInstallment;
+    @Column
     private Integer amountInstallment;
-    private String typeInstallment;
     @Column(nullable = false)
     @Nonnull
     private Double value;
 
+    @OneToOne(mappedBy = "fixedTransactions", fetch = FetchType.LAZY)
+    private Transactions transactions;
 
     public FixedTransactions(){
 
     }
-
     public FixedTransactions(
             @Nonnull String type,
             @Nonnull LocalDate startDate,

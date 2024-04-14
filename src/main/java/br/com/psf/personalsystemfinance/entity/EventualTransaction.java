@@ -15,22 +15,21 @@ public class EventualTransaction {
     private Integer id;
     @Column(nullable = false)
     @Nonnull
-    private String name;
-    @Column(nullable = false)
-    @Nonnull
     private Double value;
     @Column(nullable = false)
     @Nonnull
     private LocalDate date;
     private String type;
 
+    @OneToOne(mappedBy = "eventualTransaction", fetch = FetchType.LAZY)
+    private Transactions transactions;
+
 
     public EventualTransaction(){
 
     }
 
-    public EventualTransaction(@Nonnull String name, @Nonnull Double value, @Nonnull LocalDate date) {
-        this.name = name;
+    public EventualTransaction(@Nonnull Double value, @Nonnull LocalDate date) {
         this.value = value;
         this.date = date;
     }

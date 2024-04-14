@@ -10,7 +10,7 @@ public class TransactionHistoryDTO {
     private Integer id;
     private String type;
     private Integer idTransaction;
-    private boolean itsDone;
+    private Boolean itsDone;
     private LocalDate date;
     private Double value;
 }

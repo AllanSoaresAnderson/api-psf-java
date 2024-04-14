@@ -16,10 +16,14 @@ public class Transactions {
     private String type;
     @Column(nullable = false)
     @Nonnull
-    private String categoryType;
+    private String name;
     @Column(nullable = false)
     @Nonnull
-    private Integer idCategory;
+    private String categoryType;
+    @Column
+    private Integer idFixedTransaction;
+    @Column
+    private Integer idEventualTransaction;
     @Column(insertable = false, updatable = false)
     @Nonnull
     private Integer idEntity;
@@ -28,17 +32,25 @@ public class Transactions {
     @JoinColumn(name = "idEntity", referencedColumnName = "id")
     private Entities entity;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idFixedTransaction", referencedColumnName = "id", insertable = false, updatable = false)
+    private FixedTransactions fixedTransactions;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idEventualTransaction", referencedColumnName = "id", insertable = false, updatable = false)
+    private EventualTransaction eventualTransaction;
+
     public Transactions(){}
 
     public Transactions(
+                        @Nonnull String name,
                         @Nonnull String type,
                         @Nonnull String categoryType,
-                        @Nonnull Integer idCategory,
                         @Nonnull Integer idEntity)
     {
+        this.name = name;
         this.type = type;
         this.categoryType = categoryType;
-        this.idCategory = idCategory;
         this.idEntity = idEntity;
     }
 }

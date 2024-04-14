@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class InstallmentVariableDTO {
+public class InstallmentDTO {
 
     private Integer id;
     private Integer idFixedTransaction;

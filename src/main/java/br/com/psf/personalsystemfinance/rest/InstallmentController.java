@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/installmentVariable")
+@RequestMapping(value = "/installment")
 @Transactional
 @CrossOrigin(origins = "http://localhost:4200")
-public class InstallmentVariableController {
+public class InstallmentController {
 }

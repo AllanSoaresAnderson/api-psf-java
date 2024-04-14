@@ -12,8 +12,7 @@ public class FixedTransactionDTO {
     private Integer amountTime;
     private LocalDate startDate;
     private LocalDate endDate;
-    private boolean isInstallment;
+    private Boolean isInstallment;
     private Integer amountInstallment;
-    private String typeInstallment;
     private Double value;
 }

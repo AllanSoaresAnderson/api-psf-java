@@ -1,12 +1,12 @@
 package br.com.psf.personalsystemfinance.rest;
 
 import br.com.psf.personalsystemfinance.dto.EventualTransactionDTO;
+import br.com.psf.personalsystemfinance.exceptions.EntityNotFoundException;
 import br.com.psf.personalsystemfinance.service.EventualTransactionService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,14 +18,12 @@ public class EventualTransactionsController {
     @Autowired
     private EventualTransactionService eventualTransactionService;
 
-
-
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteEventualTransaction(@PathVariable Integer id){
         try {
             this.eventualTransactionService.deleteEventualTransaction(id);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
+        } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -33,18 +31,8 @@ public class EventualTransactionsController {
     public ResponseEntity<EventualTransactionDTO> getEventualTransaction(@PathVariable Integer id){
         try {
             return new ResponseEntity<>(this.eventualTransactionService.getEventualTransaction(id),HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @PostMapping
-    @ResponseBody
-    public ResponseEntity<EventualTransactionDTO> addEventualTransactions(@Validated @RequestBody EventualTransactionDTO newET){
-        try {
-            return new ResponseEntity<>(this.eventualTransactionService.addEventualTransaction(newET), HttpStatus.OK);
-        } catch (Exception e) {
-           return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }

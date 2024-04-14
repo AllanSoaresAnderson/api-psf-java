@@ -4,7 +4,7 @@ import br.com.psf.personalsystemfinance.dto.TransactionHistoryDTO;
 import br.com.psf.personalsystemfinance.entity.TransactionHistory;
 import br.com.psf.personalsystemfinance.repository.EventualTransactionRepository;
 import br.com.psf.personalsystemfinance.repository.FixedTransactionsRepository;
-import br.com.psf.personalsystemfinance.repository.InstallmentVariableRepository;
+import br.com.psf.personalsystemfinance.repository.InstallmentRepository;
 import br.com.psf.personalsystemfinance.repository.TransactionHistoryRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class TransactionsHistoryService {
     private EventualTransactionRepository eventualTransactionRepository;
 
     @Autowired
-    private InstallmentVariableRepository installmentVariableRepository;
+    private InstallmentRepository installmentRepository;
 
     /**
      * @param id Transaction History id
@@ -68,7 +68,7 @@ public class TransactionsHistoryService {
                 throw new Exception("NOT FOUND");
             }
             else if(newTH.getType().equals("installment")
-                    && !this.installmentVariableRepository.existsById(newTH.getIdTransaction())){
+                    && !this.installmentRepository.existsById(newTH.getIdTransaction())){
                 throw new Exception("NOT FOUND");
             }
             TransactionHistory transactionHistory = this.toTransactionHistory(newTH);
@@ -85,7 +85,7 @@ public class TransactionsHistoryService {
         dto.setDate(t.getDate());
         dto.setType(t.getType());
         dto.setValue(t.getValue());
-        dto.setItsDone(t.isItsDone());
+        dto.setItsDone(t.getItsDone());
         return dto;
     }
     private TransactionHistory toTransactionHistory(TransactionHistoryDTO dto){
@@ -96,7 +96,7 @@ public class TransactionsHistoryService {
                 dto.getValue()
         );
         t.setId(dto.getId());
-        t.setItsDone(dto.isItsDone());
+        t.setItsDone(dto.getItsDone());
         return t;
     }
 }
